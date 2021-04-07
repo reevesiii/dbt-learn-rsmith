@@ -1,0 +1,4 @@
+venv/
+dbt-learn/target/
+dbt-learn/dbt_modules/
+dbt-learn/logs/
