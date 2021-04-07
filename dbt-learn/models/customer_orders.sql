@@ -1,56 +1,56 @@
-with 
-customers as 
+WITH 
+CUSTOMERS AS 
 (
 
-    select *
-    from {{ ref('stg_customers') }}
+    SELECT *
+    FROM {{ ref('stg_customers') }}
 
 ),
 
-orders as (
+ORDERS AS (
 
-    select * 
-    from {{ ref('stg_orders') }}
-
-),
-
-payments as (
-
-    select * 
-    from {{ ref('stg_payments') }}
-    where STATUS = 'success'
-),
-
-
-
-customer_orders as (
-
-    select orders.customer_id
-         , min(orders.order_date) as first_order_date
-         , max(orders.order_date) as most_recent_order_date
-         , count(orders.order_id) as number_of_orders
-         , SUM(payments.AMOUNT) as lifetime_ammount
-    from orders 
-    left
-    join payments ON orders.order_id = payments.order_id 
-    group by 1
+    SELECT * 
+    FROM {{ ref('stg_orders') }}
 
 ),
 
+PAYMENTS AS (
 
-final as (
+    SELECT * 
+    FROM {{ ref('stg_payments') }}
+    WHERE STATUS = 'SUCCESS'
+),
 
-    select
-        customers.customer_id,
-        customers.first_name,
-        customers.last_name,
-        customer_orders.first_order_date,
-        customer_orders.most_recent_order_date,
-        coalesce(customer_orders.number_of_orders, 0) as number_of_orders,
-        coalesce(customer_orders.lifetime_ammount, 0) as lifetime_ammount
-    from customers
-    left join customer_orders ON customers.customer_id = customer_orders.customer_id
+
+
+CUSTOMER_ORDERS AS (
+
+    SELECT ORDERS.CUSTOMER_ID
+         , MIN(ORDERS.ORDER_DATE) AS FIRST_ORDER_DATE
+         , MAX(ORDERS.ORDER_DATE) AS MOST_RECENT_ORDER_DATE
+         , COUNT(ORDERS.ORDER_ID) AS NUMBER_OF_ORDERS
+         , SUM(PAYMENTS.AMOUNT) AS LIFETIME_AMMOUNT
+    FROM ORDERS 
+    LEFT
+    JOIN PAYMENTS ON ORDERS.ORDER_ID = PAYMENTS.ORDER_ID 
+    GROUP BY 1
+
+),
+
+
+FINAL AS (
+
+    SELECT CUSTOMERS.CUSTOMER_ID
+         , CUSTOMERS.FIRST_NAME
+         , CUSTOMERS.LAST_NAME
+         , CUSTOMER_ORDERS.FIRST_ORDER_DATE
+         , CUSTOMER_ORDERS.MOST_RECENT_ORDER_DATE
+         , COALESCE(CUSTOMER_ORDERS.NUMBER_OF_ORDERS, 0) AS NUMBER_OF_ORDERS
+         , COALESCE(CUSTOMER_ORDERS.LIFETIME_AMMOUNT, 0) AS LIFETIME_AMMOUNT
+    FROM CUSTOMERS
+    LEFT 
+    JOIN CUSTOMER_ORDERS ON CUSTOMERS.CUSTOMER_ID = CUSTOMER_ORDERS.CUSTOMER_ID
 
 )
 
-select * from final
+SELECT * FROM FINAL

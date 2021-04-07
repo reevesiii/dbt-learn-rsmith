@@ -1,5 +1,5 @@
-select id as order_id
-     , user_id as customer_id
-     , order_date
-     , status
-from raw.jaffle_shop.orders
+SELECT ID AS ORDER_ID
+     , USER_ID AS CUSTOMER_ID
+     , ORDER_DATE
+     , STATUS
+FROM RAW.JAFFLE_SHOP.ORDERS
