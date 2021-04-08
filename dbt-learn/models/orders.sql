@@ -1,3 +1,7 @@
+{{ config(materialized='table', transient=false, cluster_by=['CUSTOMER_ID']) }}
+
+{{ config(query_tag = 'test_run_day_1') }}
+
 WITH 
 CUSTOMERS AS 
 (
