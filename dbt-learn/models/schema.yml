@@ -1,0 +1,23 @@
+version: 2
+
+models:
+  - name: orders
+    description: Historical orders for each customer.
+    columns:
+      - name: CUSTOMER_ID
+        description: Customer id for the orders table, should only contain one row per customer.
+        tests:
+          - unique
+          - not_null
+      - name: FIRST_NAME
+        description: First name of the customer
+      - name: LAST_NAME
+        description: Last name of the customer
+      - name: FIRST_ORDER_DATE
+        description: Date of the first order that the customer placed
+      - name: MOST_RECENT_ORDER_DATE
+        description: Date of the last order currently on file for the customer
+      - name: NUMBER_OF_ORDERS
+        description: Count of all of the orders that a customer has placed
+      - name: LIFETIME_AMMOUNT
+        description: Total amount of all of the orders that a customer has placed

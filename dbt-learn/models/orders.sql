@@ -1,6 +1,5 @@
 {{ config(materialized='table', transient=false, cluster_by=['CUSTOMER_ID']) }}
 
-{{ config(query_tag = 'test_run_day_1') }}
 
 WITH 
 CUSTOMERS AS 
@@ -44,7 +43,7 @@ CUSTOMER_ORDERS AS (
 
 FINAL AS (
 
-    SELECT CUSTOMERS.CUSTOMER_ID
+    SELECT CUSTOMERS.CUSTOMER_ID AS customer_id
          , CUSTOMERS.FIRST_NAME
          , CUSTOMERS.LAST_NAME
          , CUSTOMER_ORDERS.FIRST_ORDER_DATE

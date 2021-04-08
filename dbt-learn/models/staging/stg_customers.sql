@@ -1,4 +1,4 @@
 SELECT ID AS CUSTOMER_ID
      , FIRST_NAME
      , LAST_NAME
-FROM RAW.JAFFLE_SHOP.CUSTOMERS
+FROM {{ source('jaffle_shop', 'customers') }}
